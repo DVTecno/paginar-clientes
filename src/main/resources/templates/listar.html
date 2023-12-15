@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Lista</title>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100">
+<nav class="bg-blue-600 p-4">
+    <div class="container mx-auto flex items-center justify-between">
+        <a class="text-white text-2xl font-bold" href="/cliente/lista">Cliente</a>
+        <button class="lg:hidden text-white focus:outline-none">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+        <div class="hidden lg:flex space-x-4">
+            <a class="text-white" href="/cliente/lista">Clientes</a>
+            <a class="text-white" href="/cliente/crear">Crear Cliente</a>
+        </div>
+    </div>
+</nav>
+<div class="container mx-auto flex-1 mt-10">
+    <table class="w-full border border-gray-300 divide-y divide-gray-300">
+        <thead class="bg-blue-600 text-white">
+        <tr>
+            <th scope="col" class="px-6 py-3 text-xs font-medium uppercase tracking-wider">ID</th>
+            <th scope="col" class="px-6 py-3 text-xs font-medium uppercase tracking-wider">Nombre</th>
+            <th scope="col" class="px-6 py-3 text-xs font-medium uppercase tracking-wider">Apellido</th>
+            <th scope="col" class="px-6 py-3 text-xs font-medium uppercase tracking-wider">Email</th>
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+        <!-- Mostrar la lista de elementos -->
+        <tr th:each="page : ${page.content}" class="hover:bg-gray-100">
+            <td class="px-6 py-4 text-sm font-medium text-gray-900" th:text="${page.id}"></td>
+            <td class="px-6 py-4 text-sm font-medium text-gray-900" th:text="${page.nombre}"></td>
+            <td class="px-6 py-4 text-sm font-medium text-gray-900" th:text="${page.apellido}"></td>
+            <td class="px-6 py-4 text-sm font-medium text-gray-900" th:text="${page.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="mt-4 text-center">
+        <label for="pageSize" class="mr-2">Mostrar:</label>
+        <select id="pageSize" name="pageSize" onchange="changePageSize(this.value)" class="border p-2 rounded-md">
+            <option value="0" th:text="${page.getSize()}"></option>
+            <option value="5" th:selected="${pageSize == 5}">5</option>
+            <option value="10" th:selected="${pageSize == 10}">10</option>
+            <option value="20" th:selected="${pageSize == 20}">20</option>
+        </select>
+        <nav class="mt-4">
+            <ul class="flex items-center justify-center space-x-0">
+                <li class="page-item" th:if="${currentPage > 0}">
+                    <a class="page-link bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600" th:href="@{/cliente/lista(page=${currentPage - 1}, size=${page.Size})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li th:each="i : ${#numbers.sequence(currentPage - 1, currentPage + 1)}" th:if="${i >= 0 and i < totalPages}" th:class="${currentPage == i} ? 'bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600' : 'bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400'">
+                    <a class="page-link" th:href="@{/cliente/lista(page=${i}, size=${page.Size})}" th:text="${i + 1}"></a>
+                </li>
+
+                <li class="page-item" th:if="${currentPage < totalPages - 1}">
+                    <a class="page-link bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600" th:href="@{/cliente/lista(page=${currentPage + 1}, size=${page.Size})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="text-center mt-4 text-gray-500">
+        <p>Total de páginas <span th:text="${page.totalPages}"></span>, total de resultados <span th:text="${page.totalElements}"></span></p>
+    </div>
+</div>
+<footer class="text-center p-12 text-gray-500">
+    <p>&copy; 2023 DVTecno. Todos los derechos reservados.</p>
+</footer>
+<script src="/js/script.js"></script>
+</body>
+</html>

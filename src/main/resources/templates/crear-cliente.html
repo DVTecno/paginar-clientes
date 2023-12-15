@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Cargar Clientes</title>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100">
+<nav class="bg-blue-600 p-4">
+    <div class="container mx-auto flex items-center justify-between">
+        <a class="text-white text-2xl font-bold" href="/cliente/lista">Cliente</a>
+        <button class="lg:hidden text-white focus:outline-none">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+        <div class="hidden lg:flex space-x-4">
+            <a class="text-white" href="/cliente/lista">Clientes</a>
+            <a class="text-white" href="/cliente/crear">Crear Cliente</a>
+        </div>
+    </div>
+</nav>
+<div class="container w-5/12 mx-auto flex-1 mt-24">
+    <!-- Contenido principal -->
+    <form action="/cliente/creado" method="post" th:object="${cliente}"
+          class="bg-white shadow-md rounded-md p-6 sm:p-10 lg:p-8 xl:p-10 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8">
+        <fieldset>
+            <legend class="text-center text-3xl font-medium text-gray-700">Cargar Datos</legend>
+
+            <div class="mb-4">
+                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                <input type="text"
+                       class="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+                       autofocus id="nombre" name="nombre"/>
+            </div>
+            <div class="mb-4">
+                <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido:</label>
+                <input type="text"
+                       class="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+                       id="apellido" name="apellido"/>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+                <input type="text"
+                       class="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+                       id="email" name="email"/>
+            </div>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Enviar</button>
+        </fieldset>
+    </form>
+</div>
+<footer class="text-center p-12 text-gray-500">
+    <p>&copy; 2023 DVTecno. Todos los derechos reservados.</p>
+</footer>
+</body>
+</html>
